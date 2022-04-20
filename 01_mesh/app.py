@@ -33,7 +33,6 @@ def meshFromPoints(pts):
     print (m.Faces[0])
     print (m.Faces.TriangleCount)
 
-
     return m
 
 
