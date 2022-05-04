@@ -55,12 +55,14 @@ def gridMesh():
     grid = []
     mesh = rhino3dm.Mesh()
     
+    #add vertices
     for i in range(U):
         for j in range(V):
             p = rhino3dm.Point3d(i,j,0)
             grid.append(p)
             mesh.Vertices.Add(p.X, p.Y, p.Z) 
-            
+
+    #add faces        
     for i in range(len(grid)-(V)):
         if ( i % V != V -1 ):
             mesh.Faces.AddFace(i,i+1, i+V+1,i+V)
