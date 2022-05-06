@@ -17,6 +17,7 @@ def makeSampleMesh(U,V):
     return mesh
 
 
+#create an average point
 def avgPt(ptList):
 
     ptX = list(map(lambda p: p.X, ptList))
@@ -25,6 +26,7 @@ def avgPt(ptList):
     
     return rg.Point3d(sum(ptX)/len(ptList), sum(ptY)/len(ptList), sum(ptZ)/len(ptList))
 
+#explode mesh to each face..? 0 to i ?
 def explodeMeshRG(mesh):
     exploded =[]
     m_copy = mesh.Duplicate()
@@ -32,7 +34,7 @@ def explodeMeshRG(mesh):
         exploded.append(m_copy.Faces.ExtractFaces([0]))
     return exploded
 
-
+# explode mesh by duplicating vertices
 def explodeMesh(mesh):
     meshList = []
 
@@ -48,6 +50,7 @@ def explodeMesh(mesh):
         new_mesh.Vertices.Add(v2.X, v2.Y, v2.Z)
         new_mesh.Vertices.Add(v3.X, v3.Y, v3.Z)
 
+        # create faces for quad or tri
         if mesh.Faces[0][-1] != mesh.Faces[0][-2]:
             v4 = mesh.Vertices[mesh.Faces[i][3]]
             new_mesh.Vertices.Add(v4.X, v4.Y, v4.Z)
@@ -60,6 +63,7 @@ def explodeMesh(mesh):
 
     return meshList
 
+# Get list of adjacent faces
 def getAdjancentFaceList(mesh):
     sets = []
 
@@ -166,6 +170,8 @@ def getNakedVertexIndexes(mesh):
     return naked
 
 
+# below this line is for networkx
+#--------------------------------------------------------------------------------------------------
 def getGraphNakedNodes(nxgraph, meshtype="tri"):
     
     naked_nodes = []
@@ -224,10 +230,13 @@ def addRandomWeights(nxgraph, min=0, max=10):
     for n in nxgraph.edges:
         nxgraph[n[0]][n[1]]['weight']=random.randint(min, max)
       
-
+#Returns True if G has a path from source to target.
 def hasPath(nxgraph, source, target):
     return nx.has_path(nxgraph, source, target)
 
+
+# end of networkx section
+#-------------------------------------------------------------------------------------
 def getMeshType(mesh):
     if mesh.Faces.QuadCount > 0:
         typ = "quad"
@@ -238,10 +247,11 @@ def serializeNestedList(nestedList):
     import json
     return json.dumps(nestedList)
 
-
+# for graph in networkx, Returns True if the graph is connected, False otherwise.
 def isGraphConnected(g):
     return nx.is_connected(g)
 
+# Generate a sorted list of connected components, largest first.
 def getConnectedComponents(g):
     return nx.connected_components(g)
 

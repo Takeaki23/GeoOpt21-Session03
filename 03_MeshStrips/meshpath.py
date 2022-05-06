@@ -73,7 +73,7 @@ def shortestPath(g, f1, f2):
 
     return pts, faceInd, sp
 
-
+#ショーテストパスの一つ
 def dijkstraPath(g, f1, f2):
 
     sp = nx.dijkstra_path(g, f1, f2, weight = "weight")
@@ -93,6 +93,7 @@ def longestPath(g, f1, f2):
     return pts, faceInd, sp
 
 
+#メッシュの外側のフェイスを全部通る
 def burnEdgesPath(g):
     
     sp = mu.getGraphNakedNodes(g)
